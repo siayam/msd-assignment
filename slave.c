@@ -19,3 +19,13 @@ void PWM_Init() {
 void Set_PWM(uint8_t value) {
     OCR1A = value;
 }
+
+int main(void) {
+    SPI_SlaveInit();
+    PWM_Init();
+    
+    while(1) {
+        uint8_t speed = SPI_SlaveReceive();
+        Set_PWM(speed);
+    }
+}
