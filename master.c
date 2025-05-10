@@ -21,3 +21,15 @@ uint16_t ADC_Read(uint8_t channel) {
     while (ADCSRA & (1<<ADSC));
     return ADC;
 }
+
+int main(void) {
+    SPI_MasterInit();
+    ADC_Init();
+    
+    while(1) {
+        uint16_t adc_value = ADC_Read(0);
+        uint8_t speed = adc_value / 4;
+        SPI_MasterTransmit(speed);
+        _delay_ms(100);
+    }
+}
